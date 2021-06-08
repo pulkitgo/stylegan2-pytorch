@@ -506,8 +506,10 @@ class Generator(nn.Module):
         input_is_latent=False,
         noise=None,
         randomize_noise=True,
-    ):
+    ):  
+
         if not input_is_latent:
+            # styles = [styles]
             styles = [self.style(s) for s in styles]
 
         if noise is None:
@@ -562,12 +564,11 @@ class Generator(nn.Module):
             i += 2
 
         image = skip
-
         if return_latents:
             return image, latent
 
         else:
-            return image, None
+            return image
 
 
 class ConvLayer(nn.Sequential):
@@ -695,4 +696,3 @@ class Discriminator(nn.Module):
         out = self.final_linear(out)
 
         return out
-
