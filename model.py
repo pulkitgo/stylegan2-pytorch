@@ -311,7 +311,7 @@ class NoiseInjection(nn.Module):
     def forward(self, image, noise=None):
         if noise is None:
             batch, _, height, width = image.shape
-            noise = image.new_empty(batch, 1, height, width).normal_()
+            noise = torch.zeros((batch, 1, height, width))
 
         return image + self.weight * noise
 
@@ -446,7 +446,7 @@ class Generator(nn.Module):
         for layer_idx in range(self.num_layers):
             res = (layer_idx + 5) // 2
             shape = [1, 1, 2 ** res, 2 ** res]
-            self.noises.register_buffer(f"noise_{layer_idx}", torch.randn(*shape))
+            self.noises.register_buffer(f"noise_{layer_idx}", torch.zeros(*shape))
 
         for i in range(3, self.log_size + 1):
             out_channel = self.channels[2 ** i]
@@ -477,11 +477,11 @@ class Generator(nn.Module):
     def make_noise(self):
         device = self.input.input.device
 
-        noises = [torch.randn(1, 1, 2 ** 2, 2 ** 2, device=device)]
+        noises = [torch.zeros(1, 1, 2 ** 2, 2 ** 2, device=device)]
 
         for i in range(3, self.log_size + 1):
             for _ in range(2):
-                noises.append(torch.randn(1, 1, 2 ** i, 2 ** i, device=device))
+                noises.append(torch.zeros(1, 1, 2 ** i, 2 ** i, device=device))
 
         return noises
 
