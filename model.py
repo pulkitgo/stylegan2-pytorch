@@ -311,7 +311,7 @@ class NoiseInjection(nn.Module):
     def forward(self, image, noise=None):
         if noise is None:
             batch, _, height, width = image.shape
-            noise = torch.zeros((batch, 1, height, width))
+            noise = torch.zeros((batch, 1, height, width), device='cuda')
 
         return image + self.weight * noise
 
