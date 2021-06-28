@@ -27,6 +27,7 @@ def generate(args, g_ema, device, mean_latent):
                 normalize=True,
                 range=(-1, 1),
             )
+            np.save(f'latent_{str(i).zfill(6)}.npy', sample_z.to('cpu').numpy())
 
 
 if __name__ == "__main__":
