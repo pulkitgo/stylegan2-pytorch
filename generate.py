@@ -5,6 +5,9 @@ from torchvision import utils
 from model import Generator
 from tqdm import tqdm
 
+torch.manual_seed(0)
+np.random.seed(0)
+random.seed(0)
 
 def generate(args, g_ema, device, mean_latent):
 
